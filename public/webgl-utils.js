@@ -285,7 +285,7 @@ const webglUtils = {
         document.getElementById("turnLeft").click();
       }
       else if (event.keyCode === 87) {
-        document.getElementById("up").click();
+        document.getElementById("forward").click();
       }
       else if (event.keyCode === 69) {
         document.getElementById("turnRight").click();
@@ -294,7 +294,7 @@ const webglUtils = {
         document.getElementById("left").click();
       }
       else if (event.keyCode === 83) {
-        document.getElementById("down").click();
+        document.getElementById("backward").click();
       }
       else if (event.keyCode === 68) {
         document.getElementById("right").click();
