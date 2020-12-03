@@ -1,15 +1,15 @@
 # CS5310 Final Project
 
-##Description:
+## Description:
 For CS5310 Computer Graphics Final Project.
 A 3D Greeky Snake prototype.
 
-##Control:
+## Control:
 Clicks button to move cube to collect items.
 Also can use WASD to move mian cube.
 IJKL to rotation the camera.
 
-##Accomplishment
+## Accomplishment
 - One canvas: to show main scene.
 - One 3D geometric shapes: Cube.
 - One perspective projection: Shader matrix multipliaction.
@@ -17,8 +17,9 @@ IJKL to rotation the camera.
 - One directional lighting.
 - Two user interactions: keyboard and buttons to control Cube and camera.
 
-##TODO list:
-###Set of Requirements:
+## TODO list
+
+### Set of Requirements:
 - Two more 3D geometric shapes: Only have cube now. Implement two new geometric. (Different geometric represents different ability, such as X2 points or +10 seconds).
 - Three 3D mesh objects: Add this feature, thinking to implement this object for main character and obstacles.
 - Three Textures: For collecting objects, add textures.
