@@ -44,10 +44,6 @@ const webglUtils = {
       cameraAngleRadians = m4.degToRad(event.target.value);
       render();
     },
-    updateLookUp: (event) => {
-      lookAt = event.target.checked
-      render();
-    },
     updateFieldOfView: (event) => {
       fieldOfViewRadians = m4.degToRad(event.target.value);
       render();
@@ -82,10 +78,6 @@ const webglUtils = {
       camera.rotation[axis] = event.target.value
       render();
     },
-    updateLookAtTranslation: (event, index) => {
-      target[index] = event.target.value
-      render();
-    },
     addShape: (newShape, type) => {
       const colorHex = document.getElementById("color").value
       const colorRgb = webglUtils.hexToRgb(colorHex)
@@ -109,12 +101,6 @@ const webglUtils = {
     },
     deleteShape: (shapeIndex) => {
       shapes.splice(shapeIndex, 1)
-      if (shapes.length > 0) {
-        webglUtils.selectShape(0)
-        render()
-      } else {
-        selectedShapeIndex = -1
-      }
     },
     selectShape: (selectedIndex) => {
       selectedShapeIndex = selectedIndex
@@ -130,18 +116,6 @@ const webglUtils = {
     //   document.getElementById("fv").value = webglUtils.radToDeg(fieldOfViewRadians)
     //   const hexColor = webglUtils.rgbToHex(shapes[selectedIndex].color)
     //   document.getElementById("color").value = hexColor
-    },
-    doMouseDown: (event) => {
-      const boundingRectangle = canvas.getBoundingClientRect();
-      const x = Math.round(event.clientX - boundingRectangle.left - boundingRectangle.width / 2);
-      const y = -Math.round(event.clientY - boundingRectangle.top - boundingRectangle.height / 2);
-      const translation = { x, y, z: -150 }
-      const rotation = { x: 0, y: 0, z: 180 }
-      const shapeType = document.querySelector("input[name='shape']:checked").value
-      const shape = {
-        translation, rotation, type: shapeType
-      }
-      webglUtils.addShape(shape, shapeType)
     },
     renderCube: (cube) => {
       const geometry = [
@@ -173,41 +147,29 @@ const webglUtils = {
       gl.bufferData(gl.ARRAY_BUFFER, normals, gl.STATIC_DRAW);
       gl.drawArrays(gl.TRIANGLES, 0, 6 * 6);
     },
-    renderRectangle: (rectangle) => {
-      const x1 = rectangle.position.x
-        - rectangle.dimensions.width / 2;
-      const y1 = rectangle.position.y
-        - rectangle.dimensions.height / 2;
-      const x2 = rectangle.position.x
-        + rectangle.dimensions.width / 2;
-      const y2 = rectangle.position.y
-        + rectangle.dimensions.height / 2;
-  
-      gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([
-        x1, y1, 0, x2, y1, 0, x1, y2, 0,
-        x1, y2, 0, x2, y1, 0, x2, y2, 0,
-      ]), gl.STATIC_DRAW);
-      gl.drawArrays(gl.TRIANGLES, 0, 6);
-    },
-    renderTriangle: (triangle) => {
-      const x1 = triangle.position.x
-        - triangle.dimensions.width / 2
-      const y1 = triangle.position.y
-        + triangle.dimensions.height / 2
-      const x2 = triangle.position.x
-        + triangle.dimensions.width / 2
-      const y2 = triangle.position.y
-        + triangle.dimensions.height / 2
-      const x3 = triangle.position.x
-      const y3 = triangle.position.y
-        - triangle.dimensions.height / 2
-  
-      const float32Array = new Float32Array([
-        x1, y1, 0, x3, y3, 0, x2, y2, 0])
-  
-      gl.bufferData(gl.ARRAY_BUFFER, float32Array, gl.STATIC_DRAW);
-  
+    renderPyraminds: (pyraminds) => {
+      const geometry = [
+
+        60, 60, 60, 0, 60, 60, 60, 0, 60,
+      ]
+      const float32Array = new Float32Array(geometry)
+      gl.bufferData(gl.ARRAY_BUFFER, float32Array, gl.STATIC_DRAW)
+      var primitiveType = gl.TRIANGLES;
       gl.drawArrays(gl.TRIANGLES, 0, 3);
+    },
+    renderCone: (cone) => {
+      const geometry = [
+        0, 0, 0, 30, 0, 0, 15, 15, 15,
+        0, 0, 30, 30, 0, 30, 15, 15, 15,
+        0, 0, 0, 15, 15, 15, 0, 0, 30,
+        30, 0, 0, 15, 15, 15, 30, 0, 30,
+        0, 0, 0, 0, 0, 30, 30, 0, 30,
+        0, 0, 0, 30, 0, 0, 30, 0, 30,
+      ]
+      const float32Array = new Float32Array(geometry)
+      gl.bufferData(gl.ARRAY_BUFFER, float32Array, gl.STATIC_DRAW)
+      var primitiveType = gl.TRIANGLES;
+      gl.drawArrays(gl.TRIANGLES, 0, 3 * 6);
     },
     renderLetterF: (letterF) => {
       const geometry = [
@@ -281,13 +243,13 @@ const webglUtils = {
       gl.drawArrays(gl.TRIANGLES, 0, 16 * 6);
     },
     doKeyDown: (event) => {
-      if (event.keyCode === 81) {
+      if (event.keyCode === 74) {
         document.getElementById("turnLeft").click();
       }
       else if (event.keyCode === 87) {
         document.getElementById("forward").click();
       }
-      else if (event.keyCode === 69) {
+      else if (event.keyCode === 76) {
         document.getElementById("turnRight").click();
       }
       else if (event.keyCode === 65) {
@@ -299,34 +261,77 @@ const webglUtils = {
       else if (event.keyCode === 68) {
         document.getElementById("right").click();
       }
+      else if (event.keyCode === 88) {
+        document.getElementById("up").click();
+      }
+      else if (event.keyCode === 90) {
+        document.getElementById("down").click();
+      }
+      else if (event.keyCode === 73) {
+        document.getElementById("turnUp").click();
+      }
+      else if (event.keyCode === 75) {
+        document.getElementById("turnDown").click();
+      }
     },
     updateCameraTranslation_rotateLeft: () => {
-      crx = parseFloat(document.getElementById("crx").value);
-      cry = parseFloat(document.getElementById("cry").value);
-      crz = parseFloat(document.getElementById("crz").value) * Math.PI / 180;
-  
-      crx = crx - 2 * Math.sin(crz);
-      cry = cry - 2 * Math.cos(crz);
-  
-      document.getElementById("crx").value = crx;
+      cry = document.getElementById("cry").value;
+      cry = +cry - +5;
       document.getElementById("cry").value = cry;
-      camera.rotation.x = crx;
+
       camera.rotation.y = cry;
+
+      // ry = document.getElementById("ry").value;
+      // ry = +ry + +5;
+      // document.getElementById("ry").value = ry;
+
+      // shapes[0].rotation.y = ry;
 
       render()
     },
     updateCameraTranslation_rotateRight: () => {
-      crx = parseFloat(document.getElementById("crx").value);
-      cry = parseFloat(document.getElementById("cry").value);
-      crz = parseFloat(document.getElementById("crz").value) * Math.PI / 180;
-  
-      crx = crx + 2 * Math.sin(crz);
-      cry = cry + 2 * Math.cos(crz);
-  
-      document.getElementById("crx").value = crx;
+      cry = document.getElementById("cry").value;
+      cry = +cry + +5;
       document.getElementById("cry").value = cry;
-      camera.rotation.x = crx;
+
       camera.rotation.y = cry;
+
+      // ry = document.getElementById("ry").value;
+      // ry = +ry - +5;
+      // document.getElementById("ry").value = ry;
+
+      // shapes[0].rotation.y = ry;
+
+      render()
+    },
+    updateCameraTranslation_rotateUp: () => {
+      crx = document.getElementById("crx").value;
+      crx = +crx - +5;
+      document.getElementById("crx").value = crx;
+
+      camera.rotation.x = crx;
+
+      // rx = document.getElementById("rx").value;
+      // rx = +rx - +5;
+      // document.getElementById("rx").value = rx;
+
+      // shapes[0].rotation.x = rx;
+
+      render()
+    },
+    updateCameraTranslation_rotateDown: () => {
+      crx = document.getElementById("crx").value;
+      crx = +crx + +5;
+      document.getElementById("crx").value = crx;
+
+      camera.rotation.x = crx;
+
+      // rx = document.getElementById("rx").value;
+      // rx = +rx + +5;
+      // document.getElementById("rx").value = rx;
+
+      // shapes[0].rotation.x = rx;
+
       render()
     },
     updateCameraTranslation_forward: () => {
@@ -380,6 +385,67 @@ const webglUtils = {
       shapes[0].translation.x = x;
 
       render()
+    },
+    updateCameraTranslation_up: () => {
+      cty = document.getElementById("cty").value;
+      cty = +cty - +5;
+      document.getElementById("cty").value = cty;
+      camera.translation.y = cty;
+
+      y = document.getElementById("ty").value;
+      y = +y + +5;
+      document.getElementById("ty").value = y;
+      shapes[0].translation.y = y;
+
+      render()
+    },
+    updateCameraTranslation_down: () => {
+      cty = document.getElementById("cty").value;
+      cty = +cty + +5;
+      document.getElementById("cty").value = cty;
+      camera.translation.y = cty;
+
+      y = document.getElementById("ty").value;
+      y = +y - +5;
+      document.getElementById("ty").value = y;
+      shapes[0].translation.y = y;
+
+      render()
+    },
+    collision: () => {
+      webglUtils.deleteShape(1);
+      webglUtils.createRandomCube();
+      render();
+    },
+    createRandomCube: () => {
+      let tx = Math.floor(Math.random() * 60);
+      let ty = Math.floor(Math.random() * 60);
+      let tz = Math.floor(Math.random() * 60);
+      let shape = {
+        type: CUBE,
+        position: origin,
+        dimensions: sizeOne,
+        color: RED_RGB,
+        translation: { x: tx, y: ty, z: tz },
+        scale: { x: 0.2, y: 0.2, z: 0.2 },
+        rotation: { x: 0, y: 0, z: 0 }
+      }
+      shapes.push(shape);
+      render();
+    },
+    collision_distance: (distance) => {
+      let x1 = shapes[0].translation.x;
+      let y1 = shapes[0].translation.y;
+      let z1 = shapes[0].translation.z;
+      let x2 = shapes[1].translation.x;
+      let y2 = shapes[1].translation.y;
+      let z2 = shapes[1].translation.z;
+
+      let distance_x = Math.abs(x1 - x2)
+      let distance_y = Math.abs(y1 - y2)
+      let distance_z = Math.abs(z1 - z2)
+
+      return Math.sqrt(Math.pow(distance_x, 2) + Math.pow(distance_y, 2) + Math.pow(distance_z, 2)) < distance;
     },
     degToRad: (degrees) => degrees * Math.PI / 180,
     radToDeg: (radians) => radians * 180 / Math.PI,

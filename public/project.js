@@ -16,11 +16,6 @@ const init = () => {
 
     gl = canvas.getContext("webgl");
 
-    canvas.addEventListener(
-        "mousedown",
-        webglUtils.doMouseDown,
-        false);
-
     window.addEventListener(
         "keydown",
         webglUtils.doKeyDown,
@@ -100,6 +95,7 @@ const init = () => {
         = event => webglUtils.updateLightDirection(event, 2)
 
     webglUtils.selectShape(0)
+
 }
 
 
@@ -207,12 +203,14 @@ const render = () => {
 
         if (shape.type === CUBE) {
             webglUtils.renderCube(shape)
-        } else if (shape.type === RECTANGLE) {
-            webglUtils.renderRectangle(shape)
-        } else if (shape.type === TRIANGLE) {
-            webglUtils.renderTriangle(shape)
+        } else if (shape.type === PYRAMID) {
+            webglUtils.renderPyraminds(shape)
         }
     })
+
+    if (webglUtils.collision_distance(8)) {
+        webglUtils.collision();
+    }
 }
 
 let fieldOfViewRadians = webglUtils.degToRad(60)

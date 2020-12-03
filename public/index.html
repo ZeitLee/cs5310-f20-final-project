@@ -33,12 +33,22 @@
         Y: <input id="cry" type="number" value="0" step="2" /><br />
         Z: <input id="crz" type="number" value="0" step="2" /><br />
         <h2>First Person</h2>
-        <button id="turnLeft" onclick="webglUtils.updateCameraTranslation_rotateLeft()">&laquo;</button>
+        <button id="up" onclick="webglUtils.updateCameraTranslation_up()">&uArr;</button>
         <button id="forward" onclick="webglUtils.updateCameraTranslation_forward()">&uarr;</button>
-        <button id="turnRight" onclick="webglUtils.updateCameraTranslation_rotateRight()">&raquo;</button><br />
+        <button id="down" onclick="webglUtils.updateCameraTranslation_down()">&dArr;</button><br />
         <button id="left" onclick="webglUtils.updateCameraTranslation_left()">&larr;</button>
         <button id="backward" onclick="webglUtils.updateCameraTranslation_backward()">&darr;</button>
-        <button id="right" onclick="webglUtils.updateCameraTranslation_right()">&rarr;</button>
+        <button id="right" onclick="webglUtils.updateCameraTranslation_right()">&rarr;</button><br />
+
+
+        <h2>Camera Control</h2>
+        <button id="blank1">&#x2800;</button>
+        <button id="turnUp" onclick="webglUtils.updateCameraTranslation_rotateUp()">&uarr;</button>
+        <button id="blank2">&#x2800;</button><br />
+        <button id="turnLeft" onclick="webglUtils.updateCameraTranslation_rotateLeft()">&laquo;</button>
+        <button id="turnDown" onclick="webglUtils.updateCameraTranslation_rotateDown()">&uarr;</button>
+        <button id="turnRight" onclick="webglUtils.updateCameraTranslation_rotateRight()">&raquo;</button>
+        
 
         <h2>Light Direction</h2>
         X: <input id="dlrx" type="range" value="0" min="-1" max="1" step="0.1" />
@@ -86,6 +96,8 @@
             Circle
         </label> -->
 
+        
+
     </div>
 
     <script id="vertex-shader-3d" type="x-shader/x-vertex">
@@ -120,5 +132,7 @@
     </script>
 
 </body>
+
+
 
 </html>
