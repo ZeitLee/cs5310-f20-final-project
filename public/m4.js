@@ -227,6 +227,23 @@ const m4 = {
       }
       return dst;
     },
+
+    lookAt: (cameraPosition, target, up) => {
+      var zAxis = m4.normalize(
+        m4.subtractVectors(cameraPosition, target));
+      var xAxis = m4.normalize(m4.cross(up, zAxis));
+      var yAxis = m4.normalize(m4.cross(zAxis, xAxis));
+  
+      return [
+        xAxis[0], xAxis[1], xAxis[2], 0,
+        yAxis[0], yAxis[1], yAxis[2], 0,
+        zAxis[0], zAxis[1], zAxis[2], 0,
+        cameraPosition[0],
+        cameraPosition[1],
+        cameraPosition[2],
+        1,
+      ];
+    },
   
   
     normalize: (v) => {

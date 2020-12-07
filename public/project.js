@@ -10,6 +10,15 @@ let uniformWorldInverseTranspose
 let uniformReverseLightDirectionLocation
 let normalBuffer
 
+function computeMatrix(viewProjectionMatrix, translation, xRotation, yRotation) {
+    var matrix = m4.translate(viewProjectionMatrix,
+        translation[0],
+        translation[1],
+        translation[2]);
+    matrix = m4.xRotate(matrix, xRotation);
+    return m4.yRotate(matrix, yRotation);
+}
+
 const init = () => {
     // get a reference to the canvas and WebGL context
     const canvas = document.querySelector("#canvas");
@@ -94,17 +103,13 @@ const init = () => {
     document.getElementById("dlrz").onchange
         = event => webglUtils.updateLightDirection(event, 2)
 
-    webglUtils.selectShape(0)
 
+    
 }
 
-
-const up = [0, 1, 0]
-let target = [0, 0, 0]
-
 const render = () => {
-    gl.bindBuffer(gl.ARRAY_BUFFER,
-        bufferCoords);
+
+    gl.bindBuffer(gl.ARRAY_BUFFER,bufferCoords);
     gl.vertexAttribPointer(
         attributeCoords,
         3, // size = 3 floats per vertex
@@ -123,8 +128,6 @@ const render = () => {
     const zFar = 2000;
 
     let cameraMatrix = m4.identity();
-
-
         cameraMatrix = m4.zRotate(
             cameraMatrix,
             webglUtils.degToRad(camera.rotation.z));
@@ -139,6 +142,8 @@ const render = () => {
             camera.translation.x,
             camera.translation.y,
             camera.translation.z);
+
+
     
     const projectionMatrix = m4.perspective(
         fieldOfViewRadians, aspect, zNear, zFar);
@@ -168,28 +173,6 @@ const render = () => {
     $shapeList.empty()
 
     shapes.forEach((shape, index) => {
-        const $li = $(`
-        <li>
-            <button onclick="webglUtils.deleteShape(${index})">
-                Delete
-                </button>
-
-            <label>
-                <input
-                type="radio"
-                id="${shape.type}-${index}"
-                name="shape-index"
-                ${index === selectedShapeIndex ? "checked" : ""}
-                onclick="webglUtils.selectShape(${index})"
-                value="${index}"/>
-
-                ${shape.type};
-                X: ${shape.translation.x};
-                Y: ${shape.translation.y}
-                </label>
-                </li>
-                `)
-        $shapeList.append($li)
 
 
         // compute transformation matrix
@@ -206,11 +189,16 @@ const render = () => {
         } else if (shape.type === PYRAMID) {
             webglUtils.renderPyraminds(shape)
         }
+        else if (shape.type === TYPE_F) {
+            webglUtils.renderLetterF(shape)
+        }
     })
 
     if (webglUtils.collision_distance(8)) {
         webglUtils.collision();
     }
+
+    
 }
 
 let fieldOfViewRadians = webglUtils.degToRad(60)

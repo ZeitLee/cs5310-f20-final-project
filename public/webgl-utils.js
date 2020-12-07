@@ -44,6 +44,10 @@ const webglUtils = {
       cameraAngleRadians = m4.degToRad(event.target.value);
       render();
     },
+    updateLookUp: (event) => {
+      lookAt = event.target.checked
+      render();
+    },
     updateFieldOfView: (event) => {
       fieldOfViewRadians = m4.degToRad(event.target.value);
       render();
@@ -147,6 +151,9 @@ const webglUtils = {
       gl.bufferData(gl.ARRAY_BUFFER, normals, gl.STATIC_DRAW);
       gl.drawArrays(gl.TRIANGLES, 0, 6 * 6);
     },
+    renderShphere: (sphere) => {
+      
+    },
     renderPyraminds: (pyraminds) => {
       const geometry = [
 
@@ -173,70 +180,133 @@ const webglUtils = {
     },
     renderLetterF: (letterF) => {
       const geometry = [
-        // left column front [ok]
-        0, 0, 0, 0, 150, 0, 30, 0, 0, 0, 150, 0,
-        30, 150, 0, 30, 0, 0,
-  
-        // top rung front
-        30, 0, 0, 30, 30, 0, 100, 0, 0,
-        30, 30, 0, 100, 30, 0, 100, 0, 0,
-  
-        // middle rung front
-        30, 60, 0, 30, 90, 0, 67, 60, 0,
-        30, 90, 0, 67, 90, 0, 67, 60, 0,
-  
-        // left column back [ok]
-        0, 0, 30, 30, 0, 30, 0, 150, 30,
-        0, 150, 30, 30, 0, 30, 30, 150, 30,
-  
-        // top rung back
-        30, 0, 30, 100, 0, 30, 30, 30, 30,
-        30, 30, 30, 100, 0, 30, 100, 30, 30,
-  
-        // middle rung back
-        30, 60, 30, 67, 60, 30, 30, 90, 30,
-        30, 90, 30, 67, 60, 30, 67, 90, 30,
-  
-        // top [ok]
-        0, 0, 0, 100, 0, 0, 100, 0, 30,
-        0, 0, 0, 100, 0, 30, 0, 0, 30,
-  
-        // top rung right
-        100, 0, 0, 100, 30, 0, 100, 30, 30,
-        100, 0, 0, 100, 30, 30, 100, 0, 30,
-  
-        // under top rung
-        30, 30, 0, 30, 30, 30, 100, 30, 30,
-        30, 30, 0, 100, 30, 30, 100, 30, 0,
-  
-        // between top rung and middle
-        30, 30, 0, 30, 60, 30, 30, 30, 30,
-        30, 30, 0, 30, 60, 0, 30, 60, 30,
-  
-        // top of middle rung
-        30, 60, 0, 67, 60, 30, 30, 60, 30,
-        30, 60, 0, 67, 60, 0, 67, 60, 30,
-  
-        // right of middle rung
-        67, 60, 0, 67, 90, 30, 67, 60, 30,
-        67, 60, 0, 67, 90, 0, 67, 90, 30,
-  
-        // bottom of middle rung.
-        30, 90, 0, 30, 90, 30, 67, 90, 30,
-        30, 90, 0, 67, 90, 30, 67, 90, 0,
-  
-        // right of bottom
-        30, 90, 0, 30, 150, 30, 30, 90, 30,
-        30, 90, 0, 30, 150, 0, 30, 150, 30,
-  
-        // bottom [ok]
-        0, 150, 0, 0, 150, 30, 30, 150, 30,
-        0, 150, 0, 30, 150, 30, 30, 150, 0,
-  
-        // left side [ok]
-        0, 0, 0, 0, 0, 30, 0, 150, 30,
-        0, 0, 0, 0, 150, 30, 0, 150, 0
-      ]
+          // left column front
+          0,   0,  0,
+          0, 150,  0,
+          30,   0,  0,
+          0, 150,  0,
+          30, 150,  0,
+          30,   0,  0,
+
+          // top rung front
+          30,   0,  0,
+          30,  30,  0,
+          100,   0,  0,
+          30,  30,  0,
+          100,  30,  0,
+          100,   0,  0,
+
+          // middle rung front
+          30,  60,  0,
+          30,  90,  0,
+          67,  60,  0,
+          30,  90,  0,
+          67,  90,  0,
+          67,  60,  0,
+
+          // left column back
+            0,   0,  30,
+           30,   0,  30,
+            0, 150,  30,
+            0, 150,  30,
+           30,   0,  30,
+           30, 150,  30,
+
+          // top rung back
+           30,   0,  30,
+          100,   0,  30,
+           30,  30,  30,
+           30,  30,  30,
+          100,   0,  30,
+          100,  30,  30,
+
+          // middle rung back
+           30,  60,  30,
+           67,  60,  30,
+           30,  90,  30,
+           30,  90,  30,
+           67,  60,  30,
+           67,  90,  30,
+
+          // top
+            0,   0,   0,
+          100,   0,   0,
+          100,   0,  30,
+            0,   0,   0,
+          100,   0,  30,
+            0,   0,  30,
+
+          // top rung right
+          100,   0,   0,
+          100,  30,   0,
+          100,  30,  30,
+          100,   0,   0,
+          100,  30,  30,
+          100,   0,  30,
+
+          // under top rung
+          30,   30,   0,
+          30,   30,  30,
+          100,  30,  30,
+          30,   30,   0,
+          100,  30,  30,
+          100,  30,   0,
+
+          // between top rung and middle
+          30,   30,   0,
+          30,   60,  30,
+          30,   30,  30,
+          30,   30,   0,
+          30,   60,   0,
+          30,   60,  30,
+
+          // top of middle rung
+          30,   60,   0,
+          67,   60,  30,
+          30,   60,  30,
+          30,   60,   0,
+          67,   60,   0,
+          67,   60,  30,
+
+          // right of middle rung
+          67,   60,   0,
+          67,   90,  30,
+          67,   60,  30,
+          67,   60,   0,
+          67,   90,   0,
+          67,   90,  30,
+
+          // bottom of middle rung.
+          30,   90,   0,
+          30,   90,  30,
+          67,   90,  30,
+          30,   90,   0,
+          67,   90,  30,
+          67,   90,   0,
+
+          // right of bottom
+          30,   90,   0,
+          30,  150,  30,
+          30,   90,  30,
+          30,   90,   0,
+          30,  150,   0,
+          30,  150,  30,
+
+          // bottom
+          0,   150,   0,
+          0,   150,  30,
+          30,  150,  30,
+          0,   150,   0,
+          30,  150,  30,
+          30,  150,   0,
+
+          // left side
+          0,   0,   0,
+          0,   0,  30,
+          0, 150,  30,
+          0,   0,   0,
+          0, 150,  30,
+          0, 150,   0];
       const float32Array = new Float32Array(geometry)
       gl.bufferData(gl.ARRAY_BUFFER, float32Array, gl.STATIC_DRAW)
       var primitiveType = gl.TRIANGLES;
@@ -305,21 +375,33 @@ const webglUtils = {
       render()
     },
     updateCameraTranslation_rotateUp: () => {
-      crx = document.getElementById("crx").value;
-      crx = +crx - +5;
-      document.getElementById("crx").value = crx;
-
-      camera.rotation.x = crx;
-
       // rx = document.getElementById("rx").value;
-      // rx = +rx - +5;
+      // rx = +rx + +5;
       // document.getElementById("rx").value = rx;
 
       // shapes[0].rotation.x = rx;
 
+
+
+      crx = document.getElementById("crx").value;
+      crx = +crx - +5;
+      document.getElementById("crx").value = crx;
+      camera.rotation.x = crx;
+
+      // cty = document.getElementById("cty").value;
+      // cty = +cty + +2;
+      // document.getElementById("cty").value = cty;
+      // camera.translation.y = cty;
+
+      // ctz = document.getElementById("ctz").value;
+      // ctz = +ctz + +5;
+      // document.getElementById("ctz").value = ctz;
+      // camera.translation.z = ctz;
+
       render()
     },
     updateCameraTranslation_rotateDown: () => {
+      
       crx = document.getElementById("crx").value;
       crx = +crx + +5;
       document.getElementById("crx").value = crx;
@@ -335,62 +417,91 @@ const webglUtils = {
       render()
     },
     updateCameraTranslation_forward: () => {
-      ctz = document.getElementById("ctz").value;
-      ctz = ctz - 5;
+      rx = document.getElementById("crx").value * Math.PI / 180;
+      ry = document.getElementById("cry").value * Math.PI / 180;
+      rz = document.getElementById("crz").value * Math.PI / 180;
+      ctx = parseFloat(document.getElementById("ctx").value);
+      cty = parseFloat(document.getElementById("cty").value);
+      ctz = parseFloat(document.getElementById("ctz").value);
+  
+      ctx = ctx - 5 * Math.sin(ry);
+      cty = cty + 5 * Math.sin(rx);
+      ctz = ctz + 5 * Math.cos(ry);
+  
+      document.getElementById("ctx").value = ctx;
+      document.getElementById("cty").value = cty;
       document.getElementById("ctz").value = ctz;
+      camera.translation.x = ctx;
+      camera.translation.y = cty;
       camera.translation.z = ctz;
-
-      z = document.getElementById("tz").value;
-      z = +z + +5;
-      document.getElementById("tz").value = z;
-      shapes[0].translation.z = z;
 
       render()
     },
     updateCameraTranslation_left: () => {
-      ctx = document.getElementById("ctx").value;
-      ctx = ctx - 5;
+      rx = document.getElementById("crx").value * Math.PI / 180;
+      ry = document.getElementById("cry").value * Math.PI / 180;
+      rz = document.getElementById("crz").value * Math.PI / 180;
+      ctx = parseFloat(document.getElementById("ctx").value);
+      cty = parseFloat(document.getElementById("cty").value);
+      ctz = parseFloat(document.getElementById("ctz").value);
+  
+      ctx = ctx + 5 * Math.cos(ry) * Math.cos(rz);
+      cty = cty - 5 * Math.sin(rz);
+      ctz = ctz + 5 * Math.sin(ry) * Math.cos(rz);
+  
       document.getElementById("ctx").value = ctx;
+      document.getElementById("cty").value = cty;
+      document.getElementById("ctz").value = ctz;
       camera.translation.x = ctx;
-
-      x = document.getElementById("tx").value;
-      x = +x + +5;
-      document.getElementById("tx").value = x;
-      shapes[0].translation.x = x;
-
+      camera.translation.y = cty;
+      camera.translation.z = ctz;
       render()
     },
     updateCameraTranslation_backward: () => {
-        ctz = document.getElementById("ctz").value;
-        ctz = +ctz + +5;    
-        document.getElementById("ctz").value = ctz;
-        camera.translation.z = ctz;
-
-        z = document.getElementById("tz").value;
-        z = +z - +5;
-        document.getElementById("tz").value = z;
-        shapes[0].translation.z = z;
-
-        render()
+      rx = document.getElementById("crx").value * Math.PI / 180;
+      ry = document.getElementById("cry").value * Math.PI / 180;
+      rz = document.getElementById("crz").value * Math.PI / 180;
+      ctx = parseFloat(document.getElementById("ctx").value);
+      cty = parseFloat(document.getElementById("cty").value);
+      ctz = parseFloat(document.getElementById("ctz").value);
+  
+      ctx = ctx + 5 * Math.sin(ry);
+      cty = cty - 5 * Math.sin(rx);
+      ctz = ctz - 5 * Math.cos(ry);
+  
+      document.getElementById("ctx").value = ctx;
+      document.getElementById("cty").value = cty;
+      document.getElementById("ctz").value = ctz;
+      camera.translation.x = ctx;
+      camera.translation.y = cty;
+      camera.translation.z = ctz;
+      render()
     },
     updateCameraTranslation_right: () => {
-      ctx = document.getElementById("ctx").value;
-      ctx = +ctx + +5;
+      rx = document.getElementById("crx").value * Math.PI / 180;
+      ry = document.getElementById("cry").value * Math.PI / 180;
+      rz = document.getElementById("crz").value * Math.PI / 180;
+      ctx = parseFloat(document.getElementById("ctx").value);
+      cty = parseFloat(document.getElementById("cty").value);
+      ctz = parseFloat(document.getElementById("ctz").value);
+  
+      ctx = ctx - 5 * Math.cos(ry) * Math.cos(rz);
+      cty = cty + 5 * Math.sin(rz);
+      ctz = ctz - 5 * Math.sin(ry) * Math.cos(rz);
+  
       document.getElementById("ctx").value = ctx;
+      document.getElementById("cty").value = cty;
+      document.getElementById("ctz").value = ctz;
       camera.translation.x = ctx;
-
-      x = document.getElementById("tx").value;
-      x = +x - +5;
-      document.getElementById("tx").value = x;
-      shapes[0].translation.x = x;
-
+      camera.translation.y = cty;
+      camera.translation.z = ctz;
       render()
     },
     updateCameraTranslation_up: () => {
-      cty = document.getElementById("cty").value;
-      cty = +cty - +5;
-      document.getElementById("cty").value = cty;
-      camera.translation.y = cty;
+      // cty = document.getElementById("cty").value;
+      // cty = +cty - +5;
+      // document.getElementById("cty").value = cty;
+      // camera.translation.y = cty;
 
       y = document.getElementById("ty").value;
       y = +y + +5;
@@ -400,10 +511,10 @@ const webglUtils = {
       render()
     },
     updateCameraTranslation_down: () => {
-      cty = document.getElementById("cty").value;
-      cty = +cty + +5;
-      document.getElementById("cty").value = cty;
-      camera.translation.y = cty;
+      // cty = document.getElementById("cty").value;
+      // cty = +cty + +5;
+      // document.getElementById("cty").value = cty;
+      // camera.translation.y = cty;
 
       y = document.getElementById("ty").value;
       y = +y - +5;
@@ -413,7 +524,7 @@ const webglUtils = {
       render()
     },
     collision: () => {
-      webglUtils.deleteShape(1);
+      webglUtils.deleteShape(0);
       webglUtils.createRandomCube();
       render();
     },
@@ -434,12 +545,12 @@ const webglUtils = {
       render();
     },
     collision_distance: (distance) => {
-      let x1 = shapes[0].translation.x;
-      let y1 = shapes[0].translation.y;
-      let z1 = shapes[0].translation.z;
-      let x2 = shapes[1].translation.x;
-      let y2 = shapes[1].translation.y;
-      let z2 = shapes[1].translation.z;
+      let x1 = -camera.translation.x;
+      let y1 = -camera.translation.y;
+      let z1 = -camera.translation.z;
+      let x2 = shapes[0].translation.x;
+      let y2 = shapes[0].translation.y;
+      let z2 = shapes[0].translation.z;
 
       let distance_x = Math.abs(x1 - x2)
       let distance_y = Math.abs(y1 - y2)

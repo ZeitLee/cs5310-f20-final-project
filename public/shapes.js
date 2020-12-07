@@ -14,8 +14,8 @@ const origin = {x: 0, y: 0, z: 0}
 const sizeOne = {width: 1, height: 1, depth: 1}
 
 let camera = {
-  translation: {x: -3, y: -20, z: 90},
-  rotation: {x: 15, y: 180, z: 0}
+  translation: {x: 0, y: -10, z: 40},
+  rotation: {x: 0, y: 0, z: 0}
 }
 
 let lightSource = [0, -0.2, 0.6]
@@ -26,19 +26,19 @@ let shapes = [
     position: origin,
     dimensions: sizeOne,
     color: BLUE_RGB,
-    translation: {x:  0, y: 10, z: -70},
+    translation: {x:  0, y: 0, z: -70},
     scale:       {x:   0.2, y:   0.2, z:   0.2},
     rotation:    {x:   0, y:  0, z:   0},
   },
-  {
-    type: CUBE,
-    position: origin,
-    dimensions: sizeOne,
-    color: RED_RGB,
-    translation: {x: 50, y: 0, z: 80},
-    scale:       {x:   0.2, y:   0.2, z:   0.2},
-    rotation:    {x:   0, y:  0, z:   0},
-  },
+  // {
+  //   type: CUBE,
+  //   position: origin,
+  //   dimensions: sizeOne,
+  //   color: RED_RGB,
+  //   translation: {x: 50, y: 0, z: 80},
+  //   scale:       {x:   0.2, y:   0.2, z:   0.2},
+  //   rotation:    {x:   0, y:  0, z:   0},
+  // },
   // {
   //   type: CUBE,
   //   position: origin,
