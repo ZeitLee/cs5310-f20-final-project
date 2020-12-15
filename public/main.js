@@ -3,6 +3,9 @@ import { OBJLoader2 } from '../three.js-master/examples/jsm/loaders/OBJLoader2.j
 import { MTLLoader } from '../three.js-master/examples/jsm/loaders/MTLLoader.js';
 import { MtlObjBridge } from '../three.js-master/examples/jsm/loaders/obj2/bridge/MtlObjBridge.js';
 
+//set anime running at the beginning
+var isAnime = false;
+
 // sample cube
 const cubeGeometry = new THREE.BoxBufferGeometry(1, 1, 1);
 // sample sphere
@@ -226,7 +229,7 @@ window.main = function main() {
         createPointLight(0xF0C529, new THREE.Vector3(5, 3, -5), 10, 3);
 
     // render animation
-    requestAnimationFrame(render);
+        requestAnimationFrame(render);
 
     // create a direction light and make it receive shadow
     // represents moon light
@@ -265,17 +268,20 @@ window.render = function render(time) {
         document.getElementById("score").innerHTML = score;
     }
     
-
-
     // add animation for  all objects in shapes 
     shapes.forEach((cube, ndx) => {
-        const speed = 1 + ndx * .1;
+        var speed = 1 + ndx * .1;
+        if (isAnime) {
+            speed = 1 + ndx * .1;
+        }
+        else {
+            speed = 0;
+        }
+        
         const rot = time * speed;
         cube.rotation.x = rot;
         cube.rotation.y = rot;
     });
-
-    
 
     renderer.render(scene, camera);
     requestAnimationFrame(render);
@@ -315,7 +321,11 @@ window.replaceTexture = function replaceTexture(file) {
         child.material = material;
     });
     });
-    
+}
+
+// stop/play animation
+window.stopOrPlay = function stopOrPlay() {
+    isAnime = !isAnime;
 }
     
 
