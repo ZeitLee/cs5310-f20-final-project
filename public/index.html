@@ -1,0 +1,105 @@
+<!doctype html>
+<html>
+
+<head>
+    <title>Computer Graphic Final Project</title>
+    <style>
+        canvas {
+            border: 1px solid gray;
+        }
+    </style>
+    <style>
+        .wrapper {
+            text-align: center;
+        }
+
+        .button {
+            position: absolute;
+            top: 50%;
+        }
+
+        /* Create two equal columns that floats next to each other */
+        .column {
+            float: left;
+            width: 30%;
+            padding: 10px;
+            height: 300px;
+            /* Should be removed. Only for demonstration */
+        }
+
+        /* Clear floats after the columns */
+        .row:after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+    </style>
+    </style>
+
+</head>
+
+
+<body>
+    <script type="text/javascript" src="utils_func.js"></script>
+    <script type="module" src="main.js"></script>
+
+
+    <div class="wrapper">
+        <h1> The Collector</h1>
+        <canvas id="canvas" width="1000px" height="600px"></canvas>
+    </div>
+    <div class="wrapper">
+        Score: <p id="score" style="display:inline"></p>
+    </div>
+    <script type="module">
+        main();
+    </script>
+
+    <div class="row">
+        <div class="column">
+            <div class="wrapper">
+                <h2>First Person Move Control</h2>
+                <button id="turn_left" onclick="camera_turn_left()">&#60;</button>
+                <button id="forward" onclick="camera_forward()">&uarr;</button>
+                <button id="turn_right" onclick="camera_turn_right()">&#62;</button><br />
+                <button id="left" onclick="camera_left()">&larr;</button>
+                <button id="backward" onclick="camera_backward()">&darr;</button>
+                <button id="right" onclick="camera_right()">&rarr;</button><br />
+            </div>
+        </div>
+
+        <div class="column">
+            <div class="wrapper">
+                <h2>Texture List</h2>
+                <button id="dog" onclick="replaceTexture('dog.jpg')"> Dog Texture</button><br />
+                <button id="lion" onclick="replaceTexture('lion.jpg')"> Lion Texture</button><br />
+                <button id="checker" onclick="replaceTexture('checker.png')"> Checker Texture</button><br />
+                <button id="wooden" onclick="replaceTexture('woodenBox.jpg')"> Wooden Texture</button><br />
+                <button id="cat" onclick="replaceTexture('cat.jpg')"> Cat Texture</button>
+            </div>
+
+        </div>
+        <div class="column">
+            <div class="wrapper">
+                <h2>Description</h2>
+                Use WASD to move. QE for rotation. <br />
+                Also you can use button for movement.<br />
+                Move to collect geometry in the scene and get score.<br />
+                Click buttons to choose texture implement to current geometry.<br />
+                New geometry will randowly appear after you get the current geometry.
+
+            </div>
+
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+</body>
+
+</html>
