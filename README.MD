@@ -4,6 +4,10 @@ For CS5310 Computer Graphics Final Project.
 A 3D interaction game using the conception of Greeky Snake. Players will be immersed into
 the green garden at night. They are free to walk and discover the sprites(randomly shaped and animal-textured geometries) then collect them.
 
+# Run local
+Install node.js and run server.js in root. Use http://localhost:3000/index.html to open html.
+
+
 Here are the design elements in our project meeting minimum requirements:
 ## one Canvas
 There is a canvas rendering the 3D game scene.
