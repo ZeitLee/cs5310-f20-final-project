@@ -4,7 +4,7 @@ import { MTLLoader } from '../three.js-master/examples/jsm/loaders/MTLLoader.js'
 import { MtlObjBridge } from '../three.js-master/examples/jsm/loaders/obj2/bridge/MtlObjBridge.js';
 
 //set anime running at the beginning
-var isAnime = false;
+var isAnime = true;
 
 // sample cube
 const cubeGeometry = new THREE.BoxBufferGeometry(1, 1, 1);
