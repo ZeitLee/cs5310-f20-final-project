@@ -1,35 +1,37 @@
-# CS5310 Final Project
-
+# CS5310 Final Project Design
 ## Description:
 For CS5310 Computer Graphics Final Project.
-A 3D Greeky Snake prototype.
+A 3D interaction game using the conception of Greeky Snake. Players will be immersed into
+the green garden at night. They are free to walk and discover the sprites(randomly shaped and animal-textured geometries) then collect them.
 
-## Control:
-Clicks button to move cube to collect items.
-Also can use WASD to move mian cube.
-IJKL to rotation the camera.
+Here are the design elements in our project meeting minimum requirements:
+## one Canvas
+There is a canvas rendering the 3D game scene.
+## three 3D geometric shapes
+There are cubes, spheres and torus shapes of 3D geometries for displaying sprites.
+## One perspective projection
+Directly use projection matrix in Three.js lib to calculate for camera transformation.
+## One camera
+One camera to display the view and operate control such as translation, rotation, angle and FOV for the geometries.
+## Three Mesh objects
+There are three 3D mesh objects including the trees, street lamps, bench, etc.
+## Two Light Sources
+Uses direction light to display moonlight and two point lightning to display street light.
+## Three Textures
+Loads three images from separate image files and uses them as textures on three different shapes.
+## Three User Interactions
+Trackball: use trackball to zoom in and zoom out the whole view.
+Keyboard: use keyboard WASD to move the geometries.
+Buttons: use buttons to move geometries, control camera and choose textures.
+## Animations
+The geometric sprites of different shapes all implement animation of rotation.
 
-## Accomplishment
-- One canvas: to show main scene.
-- One 3D geometric shapes: Cube.
-- One perspective projection: Shader matrix multipliaction.
-- One camera
-- One directional lighting.
-- Two user interactions: keyboard and buttons to control Cube and camera.
-
-## TODO list
-
-### Set of Requirements:
-- Two more 3D geometric shapes: Only have cube now. Implement two new geometric. (Different geometric represents different ability, such as X2 points or +10 seconds).
-- Three 3D mesh objects: Add this feature, thinking to implement this object for main character and obstacles.
-- Three Textures: For collecting objects, add textures.
-- One more User Interactions???
-Keyboard interaction to control camera rotation and main character movement.
-Button interaction to control camera rotation and main character movement.
-Question: Are these count 2 or 4???
-
-### Additional requirements:
-- Additional Canvases: Mini map top view.
-- Animation: Rotation about collecting objects.
-- Shadows: can see objects’ shadow on ground.
-- Texture: can choose texture of main character.
+Following are the additional requirements satisfied:
+## Shadows
+There is a shadow of the bench implemented and projected into the surface of grass.
+## Bump Maps
+Utilizes one Bump Map on the bench.
+## Animations
+There are animations of rotation for 3D geometries of different shapes; a button to start/stop the animation.
+## Textures
+Buttons are added to select and apply data driven textures dynamically.
